@@ -214,4 +214,4 @@ func printDiffSummary(diff *gem.GemfileDiff) {
 func init() {
 	rootCmd.AddCommand(gemfileDiffScanCmd)
 	gemfileDiffScanCmd.Flags().StringVarP(&gemfileDiffScanRulesPath, "rules", "r", "./semgrep-rules", "path to semgrep rules")
-} 
+}
