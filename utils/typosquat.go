@@ -226,26 +226,3 @@ func generateTyposquatVariants(name string) []string {
 
 	return result
 }
-
-// FindSimilarGems returns a list of popular gems that this name might be trying to imitate
-func FindSimilarGems(gemName string) []string {
-	var matches []string
-	variations := CheckForTyposquats(gemName)
-
-	for _, popular := range popularGems {
-		popularVariations := CheckForTyposquats(popular)
-
-		// Check if any variations match
-		for _, v1 := range variations {
-			for _, v2 := range popularVariations {
-				if v1 == v2 {
-					matches = append(matches, popular)
-					goto nextGem // Found a match, move to next popular gem
-				}
-			}
-		}
-	nextGem:
-	}
-
-	return matches
-}
