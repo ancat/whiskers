@@ -38,7 +38,6 @@ For example:
 		potential_typosquats := utils.TyposquatsJSON{}
 		potential_typosquats.Candidates = make(map[string][]string)
 
-
 		// Check new gems for potential typosquatting
 		if added := diff.GetAddedGems(); len(added) > 0 {
 			fmt.Println("\nChecking new gems for potential typosquatting...")

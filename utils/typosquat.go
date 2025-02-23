@@ -5,7 +5,7 @@ import (
 )
 
 type TyposquatsJSON struct {
-	Candidates         map[string][]string           `json:"possible_typos"`
+	Candidates map[string][]string `json:"possible_typos"`
 }
 
 // List of popular gems to check against
