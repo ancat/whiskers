@@ -4,6 +4,10 @@ import (
 	"strings"
 )
 
+type TyposquatsJSON struct {
+	Candidates         map[string][]string           `json:"possible_typos"`
+}
+
 // List of popular gems to check against
 var popularGems = []string{
 	"Ascii85", "CFPropertyList", "aasm", "actioncable", "actionmailbox",
@@ -135,7 +139,8 @@ var popularGems = []string{
 	// Add more popular gems here
 }
 
-// CheckForTyposquats checks if a given gem name might be a typosquat of a popular gem
+// generate variants of each popular gem
+// complain if the name we received is one of the variants
 func CheckForTyposquats(gemName string) []string {
 	var matches []string
 
@@ -168,11 +173,17 @@ func generateTyposquatVariants(name string) []string {
 		'i': {'1', 'l'},
 		'l': {'1', 'i'},
 		'o': {'0'},
-		'a': {'@'},
-		's': {'5'},
+		'p': {'q'},
+		'q': {'p'},
+		'a': {'@', '4'},
+		's': {'5', '$'},
+		'e': {'3'},
+		't': {'7'},
+		'b': {'8'},
+		'g': {'9'},
+		'z': {'2'},
 		'-': {'_'},
 		'_': {'-'},
-		// Add more substitutions
 	}
 
 	// Generate substitution variants

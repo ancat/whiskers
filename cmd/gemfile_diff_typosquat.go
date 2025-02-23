@@ -1,12 +1,17 @@
 package cmd
 
 import (
+	"encoding/json"
 	"fmt"
 	"os"
 	"whiskers/gem"
 	"whiskers/utils"
 
 	"github.com/spf13/cobra"
+)
+
+var (
+	typosquatOutputPath string
 )
 
 var gemfileDiffTyposquatCmd = &cobra.Command{
@@ -30,8 +35,9 @@ For example:
 			return fmt.Errorf("failed to load diff from JSON: %w", err)
 		}
 
-		// Print the diff summary
-		printDiffSummary(diff)
+		potential_typosquats := utils.TyposquatsJSON{}
+		potential_typosquats.Candidates = make(map[string][]string)
+
 
 		// Check new gems for potential typosquatting
 		if added := diff.GetAddedGems(); len(added) > 0 {
@@ -40,8 +46,12 @@ For example:
 			for _, gem := range added {
 				matches := utils.CheckForTyposquats(gem.Name)
 				if len(matches) > 0 {
+					if potential_typosquats.Candidates[gem.Name] == nil {
+						potential_typosquats.Candidates[gem.Name] = matches
+					}
+
 					foundIssues = true
-					fmt.Printf("\nWarning: %s might be a typosquat of:\n", gem.Name)
+					fmt.Printf("\nWarning: %s might be a typosquat of these popular packages:\n", gem.Name)
 					for _, match := range matches {
 						fmt.Printf("  - %s\n", match)
 					}
@@ -54,10 +64,18 @@ For example:
 			fmt.Println("\nNo new gems to check for typosquatting")
 		}
 
+		data, err := json.MarshalIndent(potential_typosquats, "", "  ")
+		if err != nil {
+			return err
+		}
+
+		os.WriteFile(typosquatOutputPath, data, 0644)
+
 		return nil
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(gemfileDiffTyposquatCmd)
+	gemfileDiffTyposquatCmd.Flags().StringVarP(&typosquatOutputPath, "output", "o", "", "save diff to JSON file")
 }
