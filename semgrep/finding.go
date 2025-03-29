@@ -35,8 +35,9 @@ func (f *Finding) Equals(other *Finding) bool {
 
 // Display returns a formatted string representation of the finding
 func (f *Finding) Display() string {
-	return fmt.Sprintf("  [%s] line %d: %s\n    %s",
+	return fmt.Sprintf("  [%s] %s:%d: %s\n    %s",
 		f.RuleID,
+		f.Path,
 		f.Line,
 		f.Message,
 		f.Lines)
@@ -48,6 +49,7 @@ func (f *Finding) Rebase(baseDir string) error {
 		return fmt.Errorf("base doesn't match: path %s does not start with %s", f.Path, baseDir)
 	}
 
+	baseDir = strings.TrimRight(baseDir, "/")
 	f.Path = strings.TrimPrefix(f.Path, baseDir+"/")
 	return nil
 }

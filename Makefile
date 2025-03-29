@@ -1,5 +1,12 @@
-main:
-	go build .
+.PHONY: all whiskers ssd
+
+all: whiskers ssd
+
+whiskers:
+	go build -o whiskers whiskers.go
+
+ssd:
+	go build -o semgrep-scan-diff semgrep-scan-diff.go
 
 fmt-branch:
 	gofmt -w $$(git diff --name-only main '*.go')
