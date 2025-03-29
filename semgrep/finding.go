@@ -48,6 +48,7 @@ func (f *Finding) Rebase(baseDir string) error {
 		return fmt.Errorf("base doesn't match: path %s does not start with %s", f.Path, baseDir)
 	}
 
+	baseDir = strings.TrimRight(baseDir, "/")
 	f.Path = strings.TrimPrefix(f.Path, baseDir+"/")
 	return nil
 }
