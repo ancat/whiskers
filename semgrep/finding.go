@@ -35,8 +35,9 @@ func (f *Finding) Equals(other *Finding) bool {
 
 // Display returns a formatted string representation of the finding
 func (f *Finding) Display() string {
-	return fmt.Sprintf("  [%s] line %d: %s\n    %s",
+	return fmt.Sprintf("  [%s] %s:%d: %s\n    %s",
 		f.RuleID,
+		f.Path,
 		f.Line,
 		f.Message,
 		f.Lines)
