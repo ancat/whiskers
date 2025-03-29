@@ -65,7 +65,6 @@ func main() {
 				}
 
 				key := fmt.Sprintf("%s:%s:%s", f.Path, f.RuleID, f.Lines)
-				fmt.Printf("old|%s\n", key)
 				oldFindings[key] = true
 			}
 
@@ -78,9 +77,7 @@ func main() {
 				}
 
 				key := fmt.Sprintf("%s:%s:%s", f.Path, f.RuleID, f.Lines)
-				fmt.Printf("new|%s\n", key)
 				if !oldFindings[key] {
-					fmt.Printf("comparing %s vs %s\n", f.Path, key)
 					newFindings = append(newFindings, f)
 				}
 			}
@@ -106,9 +103,6 @@ func main() {
 					os.Exit(1)
 				}
 				fmt.Printf("JSON output written to file: %s\n", outputFile)
-			} else {
-				// Otherwise, print a standard message.
-				fmt.Println("All required directories exist. Proceeding with standard output...")
 			}
 		},
 	}
